@@ -56,13 +56,19 @@ class LinkedList{
         Node* tail;
     public:
         LinkedList(){
-            head = new Node();
-            tail = head;
+            head = nullptr;
+            tail = nullptr;
             size = 0;
         }
         void InsertAfter(Node* new_node){
-            tail->InsertAfter(new_node);
-            tail = new_node;
+            if(size == 0){
+                head = new_node;
+                tail = head;
+            }
+            else{
+                tail->InsertAfter(new_node);
+                tail = new_node;
+            }
             size++;
         }
 
@@ -79,11 +85,11 @@ class LinkedList{
         }
 
         void ChangePosition(int pos, int new_pos){
-            Node* curr;
+            Node* curr = head;
             Node* temp;
             int index;
             if(pos < new_pos){
-                index = 0;
+                index = 1;
                 curr = head;
                 while(curr){
                     if(index == pos){
@@ -116,7 +122,7 @@ class LinkedList{
             }
         }
         void Print(){
-            Node* curr = head->GetNext();
+            Node* curr = head;
             while(curr){
                 curr->Print();
                 curr = curr->GetNext();
