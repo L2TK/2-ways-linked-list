@@ -1,9 +1,7 @@
 #include <iostream>
 using namespace std;
 
-
-class Node
-{
+class Node{
 private:
     string name;
     Node* prev;
@@ -19,89 +17,139 @@ public:
         prev = nullptr;
         next = nullptr;
     }
+    
+    Node* GetPrev(){ return prev; }
+    Node* GetNext(){ return next; }
+    string GetName(){ return name; }
+
+    void SetPrev(Node* node){  prev = node; }
+    void SetNext(Node* node){  next = node; }
+    void SetName(string name){  this->name = name; }
+
+
     void InsertAfter(Node* new_node){
-        Node* curr = this;
-        while(curr->next != nullptr){
-            curr = curr->next;
-        }
-        new_node->next = curr->next;
-        curr->next = new_node;
-        new_node->prev = curr;
+        new_node->next = this->next;
+        this->next = new_node;
+        new_node->prev = this;
     }
-    void Remove(Node* curr,string input_name){
-        if(curr->name == input_name){
-            curr->prev->next = curr->next;
-            return;
-        }
-        Remove(curr->next, input_name);
+
+    void InsertBefore(Node* new_node){
+        new_node->prev = this->prev;
+        this->prev = new_node;
+        new_node->next = this;        
     }
-    void ChangePosition(int pos, int new_pos){
-        Node* temp;
-        Node* curr = this;
-        int index = 0;
-        if(pos < new_pos){
-            while(curr){
-                if(index == pos){
-                    temp = curr;
-                    curr->prev->next = curr->next;
-                    curr = curr->next;
-                }
-                if(index == new_pos - 1){
-                    temp->next = curr->next;
-                    curr->next = temp;
-                    break;
-                }
-                curr = curr->next;
-                index++;
-            }
-        }
-        else{
-            while(curr){
-                if(index == new_pos -1){
-                    temp = curr;
-                }
-                if(index == pos){
-                    temp->next = curr;
-                    curr->prev->next = curr->next;
-                    curr->next = temp->next;
-                    break;
-                }
-                index++;
-                curr = curr->next;
-            }
-        }
+
+    void Remove(){
+        this->prev->next = this->next;
     }
+
     void Print(){
-        Node* curr = this->next;
-        while (curr){
-            cout << curr->name << " ";
-            curr = curr->next;
-        }
-        cout << endl;
+        cout << this->name << " ";
     }
 };
 
+class LinkedList{
+    private:
+        int size;
+        Node* head;
+        Node* tail;
+    public:
+        LinkedList(){
+            head = new Node();
+            tail = head;
+            size = 0;
+
+        }
+        void InsertAfter(Node* new_node){
+            tail->InsertAfter(new_node);
+            tail = new_node;
+            cout << tail->GetName() << endl;
+            size++;
+        }
+
+        void Remove(string inputStr){
+            Node* curr = head;
+            while(curr){
+                if(curr->GetName() == inputStr){
+                    curr->Remove();
+                    break;
+                }
+                curr = curr->GetNext();
+            }
+            size--;
+        }
+
+        void ChangePosition(int pos, int new_pos){
+            Node* curr;
+            Node* temp;
+            int index;
+            if(pos < new_pos){
+                index = 0;
+                curr = head;
+                while(curr){
+                    if(index == pos){
+                        temp = curr;
+                        curr->Remove();
+                        curr = curr->GetNext();
+                    }
+                    if(index == new_pos -1){
+                        curr->InsertAfter(temp);
+                        
+                        break;
+                    }
+                    index++;
+                    curr = curr->GetNext();
+                }
+            }
+            else{
+                index = size;
+                curr = tail;
+                while(curr){
+                    if(index == pos){
+                        temp = curr;
+                        curr->Remove();
+                        curr = curr->GetPrev();
+                    }
+                    if(index == new_pos){
+                        curr->InsertBefore(temp);
+                        break;
+                    }
+                    index--;
+                    curr = curr->GetPrev();
+                }
+            }
+        }
+        void Print(){
+            Node* curr = head->GetNext();
+            cout << size << endl;
+            while(curr){
+                curr->Print();
+                curr = curr->GetNext();
+            }
+            cout << endl;
+        }
+};
 
 int main(){
-    Node* head = new Node();
-    head->InsertAfter(new Node("111"));
-    head->InsertAfter(new Node("222"));
-    head->InsertAfter(new Node("aaa"));
-    head->InsertAfter(new Node("333"));
-    head->InsertAfter(new Node("444"));
-    head->Print();
+    LinkedList* ll = new LinkedList();
+    ll->InsertAfter(new Node("111"));
+    ll->InsertAfter(new Node("222"));
+    ll->InsertAfter(new Node("aaa"));
+    ll->InsertAfter(new Node("333"));
+    ll->InsertAfter(new Node("444"));
+    ll->Print();
 
-    head->Remove(head, "aaa");
-    head->Print();
+    ll->Remove("aaa");
+    ll->Print();
 
-    head->InsertAfter(new Node("555"));
-    head->Print();
+    ll->InsertAfter(new Node("555"));
+    ll->Print();
 
-    head->ChangePosition(1,2);
-    head->Print();
+    ll->ChangePosition(2,4);
+    ll->Print();
 
-    head->ChangePosition(3, 1);
-    head->Print();
+    // ll->ChangePosition(3, 2);
+    // ll->Print();
 
     return 0;
 }
