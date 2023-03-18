@@ -53,22 +53,18 @@ class LinkedList{
     private:
         int size;
         Node* head;
+        Node* curr;
         Node* tail;
     public:
         LinkedList(){
-            head = nullptr;
-            tail = nullptr;
+            head = new Node();
+            tail = new Node();
+            curr = head;
             size = 0;
         }
         void InsertAfter(Node* new_node){
-            if(size == 0){
-                head = new_node;
-                tail = head;
-            }
-            else{
-                tail->InsertAfter(new_node);
-                tail = new_node;
-            }
+            curr->InsertAfter(new_node);
+            curr = curr->GetNext();
             size++;
         }
 
@@ -89,15 +85,15 @@ class LinkedList{
             Node* temp;
             int index;
             if(pos < new_pos){
-                index = 1;
+                index = 0;
                 curr = head;
                 while(curr){
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetNext();
+                        curr = curr->GetPrev();
                     }
-                    if(index == new_pos-1){
+                    if(index == new_pos){
                         curr->InsertAfter(temp);
                         break;
                     }
@@ -112,18 +108,19 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
+                        curr = curr->GetNext();
                     }
-                    if(index == new_pos){
+                    if(index == new_pos - 1){
                         curr->InsertBefore(temp);
                         break;
                     }
-                    index--;
+                    index--;    
                     curr = curr->GetPrev();
                 }
             }
         }
         void Print(){
-            Node* curr = head;
+            Node* curr = head->GetNext();
             while(curr){
                 curr->Print();
                 curr = curr->GetNext();
@@ -150,8 +147,8 @@ int main(){
     ll->ChangePosition(1,5);
     ll->Print();
 
-    ll->ChangePosition(3, 2);
-    ll->Print();
+    // ll->ChangePosition(3, 2);
+    // ll->Print();
 
     return 0;
 }
