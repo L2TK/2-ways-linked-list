@@ -85,7 +85,7 @@ class LinkedList{
         }
 
         void ChangePosition(int pos, int new_pos){
-            Node* curr = head;
+            Node* curr;
             Node* temp;
             int index;
             if(pos < new_pos){
@@ -95,8 +95,9 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
+                        curr = curr->GetNext();
                     }
-                    if(index == new_pos){
+                    if(index == new_pos-1){
                         curr->InsertAfter(temp);
                         break;
                     }
