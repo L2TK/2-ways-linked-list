@@ -53,19 +53,15 @@ class LinkedList{
     private:
         int size;
         Node* head;
-        Node* curr;
         Node* tail;
     public:
         LinkedList(){
             head = new Node();
-            tail = new Node();
-            curr = head;
-            size = 0;
+            tail = head;
         }
         void InsertAfter(Node* new_node){
-            curr->InsertAfter(new_node);
-            curr = curr->GetNext();
-            curr->InsertAfter(tail);
+            tail->InsertAfter(new_node);
+            tail = new_node;
             size++;
         }
 
@@ -103,15 +99,17 @@ class LinkedList{
                 }
             }
             else{
-                index = size;
+                index = size +1;
                 curr = tail;
                 while(curr){
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
                         curr = curr->GetPrev();
+                        cout << temp->GetName() << endl;
+                        cout << curr->GetName() << endl;
                     }
-                    if(index == new_pos+1){
+                    if(index == new_pos){
                         curr->InsertBefore(temp);
                         break;
                     }
@@ -148,7 +146,7 @@ int main(){
     ll->ChangePosition(1,5);
     ll->Print();
 
-    ll->ChangePosition(3, 2);
+    ll->ChangePosition(5, 1);
     ll->Print();
 
     return 0;
