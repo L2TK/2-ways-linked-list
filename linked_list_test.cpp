@@ -65,6 +65,7 @@ class LinkedList{
         void InsertAfter(Node* new_node){
             curr->InsertAfter(new_node);
             curr = curr->GetNext();
+            curr->InsertAfter(tail);
             size++;
         }
 
@@ -91,9 +92,9 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetPrev();
+                        curr = curr->GetNext();
                     }
-                    if(index == new_pos){
+                    if(index == new_pos-1){
                         curr->InsertAfter(temp);
                         break;
                     }
@@ -108,9 +109,9 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetNext();
+                        curr = curr->GetPrev();
                     }
-                    if(index == new_pos - 1){
+                    if(index == new_pos+1){
                         curr->InsertBefore(temp);
                         break;
                     }
@@ -121,8 +122,8 @@ class LinkedList{
         }
         void Print(){
             Node* curr = head->GetNext();
-            while(curr){
-                curr->Print();
+            for(int i = 0; i < size; i++){
+                cout << curr->GetName() << " ";
                 curr = curr->GetNext();
             }
             cout << endl;
@@ -147,8 +148,8 @@ int main(){
     ll->ChangePosition(1,5);
     ll->Print();
 
-    // ll->ChangePosition(3, 2);
-    // ll->Print();
+    ll->ChangePosition(3, 2);
+    ll->Print();
 
     return 0;
 }
