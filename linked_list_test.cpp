@@ -1,6 +1,5 @@
 #include <iostream>
 using namespace std;
-
 class Node{
 private:
     string name;
@@ -48,7 +47,6 @@ public:
         cout << this->name << " ";
     }
 };
-
 class LinkedList{
     private:
         int size;
@@ -120,6 +118,7 @@ class LinkedList{
                 while(curr){
                     if(index == new_pos - 1){
                         curr->InsertAfter(temp);
+                        break;
                     }
                     index++;
                     curr = curr->GetNext();
@@ -154,14 +153,22 @@ int main(){
     ll->ChangePosition(1,5);
     ll->Print();
 
+    ll->ChangePosition(5, 1);
+    ll->Print();
+
     ll->ChangePosition(4,5);
+    ll->Print();
+
+    ll->ChangePosition(3, 2);
     ll->Print();
 
     ll->ChangePosition(1,2);
     ll->Print();
 
-    ll->ChangePosition(5, 1);
+    ll->ChangePosition(4, 1);
     ll->Print();
 
+    ll->ChangePosition(1, 3);
+    ll->Print();
     return 0;
 }
