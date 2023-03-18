@@ -53,16 +53,20 @@ class LinkedList{
     private:
         int size;
         Node* head;
+        Node* curr;
         Node* tail;
     public:
         LinkedList(){
             head = new Node();
-            tail = head;
+            tail = new Node();
+            head->SetNext(tail);
+            tail->SetPrev(head);
+            curr = head;
             size = 0;
         }
         void InsertAfter(Node* new_node){
-            tail->InsertAfter(new_node);
-            tail = new_node;
+            curr->InsertAfter(new_node);
+            curr = new_node;
             size++;
         }
 
@@ -83,8 +87,8 @@ class LinkedList{
             Node* temp;
             int index;
             if(pos < new_pos){
-                index = 0;
                 curr = head;
+                index = 0;
                 while(curr){
                     if(index == pos){
                         temp = curr;
@@ -100,22 +104,25 @@ class LinkedList{
                 }
             }
             else{
-                index = size+1;
-                curr = tail;
+                curr = head;
+                index = 0;
                 while(curr){
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetPrev();
-                        cout << temp->GetName() << endl;
-                        cout << curr->GetName() << endl;
-                    }
-                    if(index == new_pos){
-                        curr->InsertBefore(temp);
                         break;
                     }
-                    index--;    
-                    curr = curr->GetPrev();
+                    curr = curr->GetNext();
+                    index++;
+                }
+                index = 0;
+                curr = head;
+                while(curr){
+                    if(index == new_pos - 1){
+                        curr->InsertAfter(temp);
+                    }
+                    index++;
+                    curr = curr->GetNext();
                 }
             }
         }
@@ -146,12 +153,15 @@ int main(){
 
     ll->ChangePosition(1,5);
     ll->Print();
+
     ll->ChangePosition(4,5);
     ll->Print();
+
     ll->ChangePosition(1,2);
     ll->Print();
-    // ll->ChangePosition(5, 1);
-    // ll->Print();
+
+    ll->ChangePosition(5, 1);
+    ll->Print();
 
     return 0;
 }
