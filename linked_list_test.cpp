@@ -63,6 +63,7 @@ class LinkedList{
         void InsertAfter(Node* new_node){
             tail->InsertAfter(new_node);
             tail = new_node;
+            size++;
         }
 
         void Remove(string inputStr){
@@ -107,7 +108,7 @@ class LinkedList{
                         curr->Remove();
                         curr = curr->GetPrev();
                     }
-                    if(index == new_pos){
+                    if(index == new_pos +1){
                         curr->InsertBefore(temp);
                         break;
                     }
