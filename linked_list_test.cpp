@@ -89,9 +89,8 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetNext();
                     }
-                    if(index == new_pos -1){
+                    if(index == new_pos){
                         curr->InsertAfter(temp);
                         break;
                     }
@@ -106,9 +105,8 @@ class LinkedList{
                     if(index == pos){
                         temp = curr;
                         curr->Remove();
-                        curr = curr->GetPrev();
                     }
-                    if(index == new_pos +1){
+                    if(index == new_pos){
                         curr->InsertBefore(temp);
                         break;
                     }
