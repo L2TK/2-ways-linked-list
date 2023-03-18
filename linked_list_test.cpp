@@ -41,6 +41,7 @@ public:
 
     void Remove(){
         this->prev->next = this->next;
+        this->next->prev = this->prev;
     }
 
     void Print(){
@@ -58,13 +59,10 @@ class LinkedList{
             head = new Node();
             tail = head;
             size = 0;
-
         }
         void InsertAfter(Node* new_node){
             tail->InsertAfter(new_node);
             tail = new_node;
-            cout << tail->GetName() << endl;
-            size++;
         }
 
         void Remove(string inputStr){
@@ -94,7 +92,6 @@ class LinkedList{
                     }
                     if(index == new_pos -1){
                         curr->InsertAfter(temp);
-                        
                         break;
                     }
                     index++;
@@ -121,7 +118,6 @@ class LinkedList{
         }
         void Print(){
             Node* curr = head->GetNext();
-            cout << size << endl;
             while(curr){
                 curr->Print();
                 curr = curr->GetNext();
@@ -145,11 +141,11 @@ int main(){
     ll->InsertAfter(new Node("555"));
     ll->Print();
 
-    ll->ChangePosition(2,4);
+    ll->ChangePosition(1,5);
     ll->Print();
 
-    // ll->ChangePosition(3, 2);
-    // ll->Print();
+    ll->ChangePosition(3, 2);
+    ll->Print();
 
     return 0;
 }
