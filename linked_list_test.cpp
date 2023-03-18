@@ -144,8 +144,8 @@ int main(){
     ll->ChangePosition(1,5);
     ll->Print();
 
-    // ll->ChangePosition(3, 2);
-    // ll->Print();
+    ll->ChangePosition(3, 2);
+    ll->Print();
 
     return 0;
 }
